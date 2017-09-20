@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head th:fragment="head">
+
+    <!-- Bootstrap stylesheets and script -->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+
+    <title>Rankings</title>
+</head>
+
+<body>
+
+    <div th:text="${batterData}"></div>
+
+</body>
+</html>
