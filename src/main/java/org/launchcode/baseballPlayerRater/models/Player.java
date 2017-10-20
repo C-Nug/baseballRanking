@@ -84,4 +84,6 @@ public abstract class Player {
     public void setDollarAmount(Double dollarAmount) {
         this.dollarAmount = dollarAmount;
     }
+
+    public void addPosition(String positions) {this.positions = this.positions + ", " + positions; }
 }

@@ -19,14 +19,14 @@ import java.util.Map;
 
 /**
  * Created by CNUG on 8/30/17.
+ *
+ * Loads Batter data from specified .csv paths into memory
  */
-
 
 public class BatterCSVReader {
 
     private static HashMap<String, String> filePaths = new HashMap<>();
     private static ArrayList<Batter> allBatters = new ArrayList<>();
-    private static boolean isDataLoaded = false;
 
     public BatterCSVReader () {
         filePaths.put("1B", "rawPlayerData/batterData1B.csv");
@@ -35,19 +35,18 @@ public class BatterCSVReader {
         filePaths.put("SS", "rawPlayerData/batterDataSS.csv");
         filePaths.put("C", "rawPlayerData/batterDataC.csv");
         filePaths.put("OF", "rawPlayerData/batterDataOF.csv");
+        filePaths.put("DH", "rawPlayerData/batterDataDH.csv");
     }
 
-    public static void loadAllBatters() {
+    public static ArrayList<Batter> loadAllBatters() {
+        BatterCSVReader readIn = new BatterCSVReader();
         for (Map.Entry<String, String> filePath : filePaths.entrySet()) {
-            BatterCSVReader.loadBatterData(filePath);
+            readIn.loadBatterData(filePath);
         }
+        return allBatters;
     }
 
-    private static void loadBatterData (Map.Entry<String, String> filepath) {
-
-        if (isDataLoaded) {
-            return;
-        }
+    private void loadBatterData (Map.Entry<String, String> filepath) {
 
         try {
 
@@ -59,26 +58,30 @@ public class BatterCSVReader {
 
 
             for (CSVRecord record : records) {
+
                 Integer playerId = Integer.valueOf(record.get("playerid"));
-                String nameStr = record.get(0);     // 0 is Name. "Name" doesn't map correctly.
-                String teamStr = record.get("Team");
-                Integer runs = Integer.valueOf(record.get("R"));
-                Integer hrs = Integer.valueOf(record.get("HR"));
-                Integer rbis = Integer.valueOf(record.get("RBI"));
-                Integer strikeOuts = Integer.valueOf(record.get("SO"));
-                Integer sbs = Integer.valueOf(record.get("SB"));
-                Double obp = Double.valueOf(record.get("OBP"));
-                Double slg = Double.valueOf(record.get("SLG"));
+                int foundPlayerId = findById(allBatters, playerId);
+                if (foundPlayerId >= 0) {
+                    allBatters.get(foundPlayerId).addPosition(filepath.getKey());
+                } else {
 
-                Batter createBatter = new Batter(playerId, nameStr, teamStr, filepath.getKey(), runs, hrs,
-                        rbis, strikeOuts, sbs, obp, slg);
-                allBatters.add(createBatter);
+                    String nameStr = record.get(0);     // 0 is Name. "Name" doesn't map correctly.
+                    String teamStr = record.get("Team");
+                    Integer runs = Integer.valueOf(record.get("R"));
+                    Integer hrs = Integer.valueOf(record.get("HR"));
+                    Integer rbis = Integer.valueOf(record.get("RBI"));
+                    Integer strikeOuts = Integer.valueOf(record.get("SO"));
+                    Integer sbs = Integer.valueOf(record.get("SB"));
+                    Double obp = Double.valueOf(record.get("OBP"));
+                    Double slg = Double.valueOf(record.get("SLG"));
 
+                    Batter createBatter = new Batter(playerId, nameStr, teamStr, filepath.getKey(), runs, hrs,
+                            rbis, strikeOuts, sbs, obp, slg);
 
+                    allBatters.add(createBatter);
+                }
 
             }
-
-            isDataLoaded = true;
 
 
         } catch (IOException e) {
@@ -87,7 +90,18 @@ public class BatterCSVReader {
         }
     }
 
-    public ArrayList<Batter> getAllBatters() {
+    public static ArrayList<Batter> getAllBatters() {
         return allBatters;
+    }
+
+    public static int findById(ArrayList<Batter> batters, Integer id) {
+        int i = 0;
+        for (Batter batter : batters) {
+            if (batter.getId().equals(id)) {
+                return i;
+            }
+            i += 1;
+        }
+        return -1;
     }
 }
