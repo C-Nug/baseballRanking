@@ -1,9 +1,10 @@
 package org.launchcode.baseballPlayerRater.controllers;
 
+import org.launchcode.baseballPlayerRater.models.Batter;
+import org.launchcode.baseballPlayerRater.models.RankerSystem;
 import org.launchcode.baseballPlayerRater.models.data.BatterDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -11,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("baseball")
-public class Rankings {
+public class RankPlayers {
 
     @Autowired
     private BatterDao batterDao;
 
 
-    // TODO: 8/10/17 make controller for displaying rankings page
-    @RequestMapping(value = "")
-    public String displayRankings(Model model) {
+    @RequestMapping (value = "rankPlayers")
+    public String rankPlayers() {
+        Iterable<Batter> batters = batterDao.findAll();
+        RankerSystem.findLowest(batters);
 
-        model.addAttribute("batters", batterDao.findAll());
+        return "rankPlayers";
 
-        return "displayRankings";
     }
 
 }

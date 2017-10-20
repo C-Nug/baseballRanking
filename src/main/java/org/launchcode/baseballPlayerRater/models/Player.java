@@ -14,20 +14,21 @@ import javax.validation.constraints.NotNull;
 public abstract class Player {
 
     @Id
-    protected Integer id;
+    @NotNull
+    private Integer id;
 
     @NotNull
-    protected String name;
+    private String name;
 
     @NotNull
-    protected String team;
+    private String team;
 
-    protected Integer rank;
+    private Integer rank;
 
     @NotNull
-    protected String positions;
+    private String positions;
 
-    protected Double dollarAmount;
+    private Double dollarAmount;
 
     public Player(Integer id, String name, String team, String positions) {
         this.id = id;

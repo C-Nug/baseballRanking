@@ -1,57 +1,41 @@
-package org.launchcode.baseballPlayerRater.dataFetcher;
-
+package org.launchcode.baseballPlayerRater.controllers;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.launchcode.baseballPlayerRater.models.Batter;
+import org.launchcode.baseballPlayerRater.models.data.BatterDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by CNUG on 8/30/17.
+ * Created by CNUG on 8/10/17.
  */
+@Controller
+@RequestMapping("baseball")
+public class Update {
+
+    @Autowired
+    private BatterDao batterDao;
 
 
-public class BatterCSVReader {
+    @RequestMapping (value = "update")
+    public String updatePlayerData() {
 
-    private static HashMap<String, String> filePaths = new HashMap<>();
-    private static ArrayList<Batter> allBatters = new ArrayList<>();
-    private static boolean isDataLoaded = false;
-
-    public BatterCSVReader () {
-        filePaths.put("1B", "rawPlayerData/batterData1B.csv");
-        filePaths.put("2B", "rawPlayerData/batterData2B.csv");
-        filePaths.put("3B", "rawPlayerData/batterData3B.csv");
-        filePaths.put("SS", "rawPlayerData/batterDataSS.csv");
-        filePaths.put("C", "rawPlayerData/batterDataC.csv");
-        filePaths.put("OF", "rawPlayerData/batterDataOF.csv");
-    }
-
-    public static void loadAllBatters() {
-        for (Map.Entry<String, String> filePath : filePaths.entrySet()) {
-            BatterCSVReader.loadBatterData(filePath);
-        }
-    }
-
-    private static void loadBatterData (Map.Entry<String, String> filepath) {
-
-        if (isDataLoaded) {
-            return;
-        }
+        final String BATTER_DATA_FILE = "rawPlayerData/batterData1B.csv";
 
         try {
 
-            Resource resource = new ClassPathResource(filepath.getValue());
+            Resource resource = new ClassPathResource(BATTER_DATA_FILE);
             InputStream is = resource.getInputStream();
             Reader reader = new InputStreamReader(is);
             CSVParser parser = CSVFormat.EXCEL.withFirstRecordAsHeader().withQuote('"').parse(reader);
@@ -62,6 +46,7 @@ public class BatterCSVReader {
                 Integer playerId = Integer.valueOf(record.get("playerid"));
                 String nameStr = record.get(0);     // 0 is Name. "Name" doesn't map correctly.
                 String teamStr = record.get("Team");
+                String positionStr = "1B";
                 Integer runs = Integer.valueOf(record.get("R"));
                 Integer hrs = Integer.valueOf(record.get("HR"));
                 Integer rbis = Integer.valueOf(record.get("RBI"));
@@ -70,24 +55,19 @@ public class BatterCSVReader {
                 Double obp = Double.valueOf(record.get("OBP"));
                 Double slg = Double.valueOf(record.get("SLG"));
 
-                Batter createBatter = new Batter(playerId, nameStr, teamStr, filepath.getKey(), runs, hrs,
+                Batter createBatter = new Batter(playerId, nameStr, teamStr, positionStr, runs, hrs,
                         rbis, strikeOuts, sbs, obp, slg);
-                allBatters.add(createBatter);
-
+                batterDao.save(createBatter);
 
 
             }
-
-            isDataLoaded = true;
 
 
         } catch (IOException e) {
             System.out.println("Failed to load player data");
             e.printStackTrace();
         }
+        return "dataUpdated";
     }
 
-    public ArrayList<Batter> getAllBatters() {
-        return allBatters;
-    }
 }

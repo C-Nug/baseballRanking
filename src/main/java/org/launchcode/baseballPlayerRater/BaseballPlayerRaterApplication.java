@@ -8,5 +8,6 @@ public class BaseballPlayerRaterApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BaseballPlayerRaterApplication.class, args);
+
 	}
 }
