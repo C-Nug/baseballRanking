@@ -1,6 +1,6 @@
 package org.launchcode.baseballPlayerRater.controllers;
 
-import org.launchcode.baseballPlayerRater.dataFetcher.BatterCSVReader;
+import org.launchcode.baseballPlayerRater.models.RankerSystem;
 import org.launchcode.baseballPlayerRater.models.data.BatterDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class Update {
     @RequestMapping (value = "update")
     public String updatePlayerData() {
 
-        batterDao.save(BatterCSVReader.loadAllBatters());
+        batterDao.save(RankerSystem.rankBatters());
 
         return "dataUpdated";
     }

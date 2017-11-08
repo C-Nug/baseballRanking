@@ -61,12 +61,13 @@ public class BatterCSVReader {
 
                 Integer playerId = Integer.valueOf(record.get("playerid"));
                 int foundPlayerId = findById(allBatters, playerId);
-                if (foundPlayerId >= 0) {
+                if (foundPlayerId > 0) {
                     allBatters.get(foundPlayerId).addPosition(filepath.getKey());
                 } else {
 
                     String nameStr = record.get(0);     // 0 is Name. "Name" doesn't map correctly.
                     String teamStr = record.get("Team");
+                    Integer abs = Integer.valueOf(record.get("AB"));
                     Integer runs = Integer.valueOf(record.get("R"));
                     Integer hrs = Integer.valueOf(record.get("HR"));
                     Integer rbis = Integer.valueOf(record.get("RBI"));
@@ -75,7 +76,7 @@ public class BatterCSVReader {
                     Double obp = Double.valueOf(record.get("OBP"));
                     Double slg = Double.valueOf(record.get("SLG"));
 
-                    Batter createBatter = new Batter(playerId, nameStr, teamStr, filepath.getKey(), runs, hrs,
+                    Batter createBatter = new Batter(playerId, nameStr, teamStr, filepath.getKey(), abs, runs, hrs,
                             rbis, strikeOuts, sbs, obp, slg);
 
                     allBatters.add(createBatter);

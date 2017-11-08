@@ -2,6 +2,7 @@ package org.launchcode.baseballPlayerRater.models;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.HashMap;
 
 /**
  * Created by CNUG on 8/1/17.
@@ -11,88 +12,62 @@ import javax.persistence.Entity;
 @DiscriminatorValue("BATTER")
 public class Batter extends Player {
 
-    private Integer runs;
+    private HashMap<String, Integer> intStats = new HashMap<String, Integer>();
+    private HashMap<String, Double> dubStats = new HashMap<String, Double>();
+    private HashMap<String, Double> ratings = new HashMap<String, Double>();
 
-    private Integer homeRuns;
 
-    private Integer rbis;
-
-    private Integer strikeOuts;
-
-    private Integer stolenBases;
-
-    private Double onBasePercent;
-
-    private Double slugging;
-
-    public Batter(Integer id, String name, String team, String positions, Integer runs, Integer homeRuns, Integer rbis, Integer strikeOuts,
+    public Batter(Integer id, String name, String team, String positions, Integer abs, Integer runs, Integer homeRuns, Integer rbis, Integer strikeOuts,
                   Integer stolenBases, Double onBasePercent, Double slugging) {
         super(id, name, team, positions);
-        this.runs = runs;
-        this.homeRuns = homeRuns;
-        this.rbis = rbis;
-        this.strikeOuts = strikeOuts;
-        this.stolenBases = stolenBases;
-        this.onBasePercent = onBasePercent;
-        this.slugging = slugging;
+        this.intStats.put("abs", abs);
+        this.intStats.put("runs", runs);
+        this.intStats.put("homeRuns", homeRuns);
+        this.intStats.put("rbis", rbis);
+        this.intStats.put("strikeOuts", strikeOuts);
+        this.intStats.put("stolenBases", stolenBases);
+        this.dubStats.put("onBasePercent", onBasePercent);
+        this.dubStats.put("slugging", slugging);
 
+        this.ratings.put("runs", 0.0);
+        this.ratings.put("homeRuns", 0.0);
+        this.ratings.put("rbis", 0.0);
+        this.ratings.put("strikeOuts", 0.0);
+        this.ratings.put("stolenBases", 0.0);
+        this.ratings.put("onBasePercent", 0.0);
+        this.ratings.put("slugging", 0.0);
+
+
+    }
+
+    public Batter (Integer id) {
+        super(id);
     }
 
     public Batter() {}
 
-    public Integer getRuns() {
-        return runs;
+
+    public HashMap<String, Integer> getIntStats() {
+        return intStats;
     }
 
-    public Integer getHomeRuns() {
-        return homeRuns;
+    public HashMap<String, Double> getDubStats() {
+        return dubStats;
     }
 
-    public Integer getRbis() {
-        return rbis;
+    public HashMap<String, Double> getRatings() {
+        return ratings;
     }
 
-    public Integer getStrikeOuts() {
-        return strikeOuts;
+    public void setIntStats(HashMap<String, Integer> intStats) {
+        this.intStats = intStats;
     }
 
-    public Integer getStolenBases() {
-        return stolenBases;
+    public void setDubStats(HashMap<String, Double> dubStats) {
+        this.dubStats = dubStats;
     }
 
-    public Double getOnBasePercent() {
-        return onBasePercent;
-    }
-
-    public Double getSlugging() {
-        return slugging;
-    }
-
-    public void setRuns(Integer runs) {
-        this.runs = runs;
-    }
-
-    public void setHomeRuns(Integer homeRuns) {
-        this.homeRuns = homeRuns;
-    }
-
-    public void setRbis(Integer rbis) {
-        this.rbis = rbis;
-    }
-
-    public void setStrikeOuts(Integer strikeOuts) {
-        this.strikeOuts = strikeOuts;
-    }
-
-    public void setStolenBases(Integer stolenBases) {
-        this.stolenBases = stolenBases;
-    }
-
-    public void setOnBasePercent(Double onBasePercent) {
-        this.onBasePercent = onBasePercent;
-    }
-
-    public void setSlugging(Double slugging) {
-        this.slugging = slugging;
+    public void setRatings(HashMap<String, Double> ratings) {
+        this.ratings = ratings;
     }
 }

@@ -17,18 +17,12 @@ public abstract class Player {
     @NotNull
     private Integer id;
 
-    @NotNull
     private String name;
-
-    @NotNull
     private String team;
-
     private Integer rank;
-
-    @NotNull
     private String positions;
-
-    private Double dollarAmount;
+    private Double rating;
+    private Double averageOfRatings;
 
     public Player(Integer id, String name, String team, String positions) {
         this.id = id;
@@ -36,10 +30,17 @@ public abstract class Player {
         this.team = team;
         this.positions = positions;
         this.rank = 1;
-        this.dollarAmount = 0.0;
+        this.rating = 0.0;
+        this.averageOfRatings = 0.0;
+    }
+
+    public Player(Integer id) {
+        this.id = id;
     }
 
     public Player() { }
+
+    public void addPosition(String positions) {this.positions = this.positions + ", " + positions; }
 
     public Integer getId() {
         return id;
@@ -61,8 +62,12 @@ public abstract class Player {
         return positions;
     }
 
-    public Double getDollarAmount() {
-        return dollarAmount;
+    public Double getRating() {
+        return rating;
+    }
+
+    public Double getAverageOfRatings() {
+        return averageOfRatings;
     }
 
     public void setName(String name) {
@@ -81,9 +86,11 @@ public abstract class Player {
         this.positions = positions;
     }
 
-    public void setDollarAmount(Double dollarAmount) {
-        this.dollarAmount = dollarAmount;
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
-    public void addPosition(String positions) {this.positions = this.positions + ", " + positions; }
+    public void setAverageOfRatings(Double averageOfRatings) {
+        this.averageOfRatings = averageOfRatings;
+    }
 }
