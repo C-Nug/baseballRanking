@@ -135,7 +135,8 @@ public class RankerSystem {
 
     }
 
-    // Gives each stat for each player a rating on a scale of 100 - 0, 100 being the best
+    // Gives each stat for each player a rating on a scale of 100 - 0, 100 being the best, 0 being the worst
+    // but impossible with a filter
     public static void rateStats() {
 
         for (Batter batter : allBatters) {
@@ -215,7 +216,7 @@ public class RankerSystem {
         allBatters.sort(new RankPlayerByRating());
 
         for (Integer i = 0; i < allBatters.size(); i++) {
-            allBatters.get(i).setRank(i + 1);
+            allBatters.get(i).setRank(i + 1);   // +1 because baseball players don't want to be a 0
         }
 
     }

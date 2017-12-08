@@ -84,6 +84,10 @@ public class BatterCSVReader {
 
             }
 
+            parser.close();
+            reader.close();
+            is.close();
+
 
         } catch (IOException e) {
             System.out.println("Failed to load player data");

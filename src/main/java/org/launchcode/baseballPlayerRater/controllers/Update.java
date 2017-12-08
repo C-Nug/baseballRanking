@@ -22,6 +22,8 @@ public class Update {
 
         batterDao.save(RankerSystem.rankBatters());
 
+
+
         return "dataUpdated";
     }
 

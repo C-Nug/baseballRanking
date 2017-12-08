@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
 
-<head th:fragment="head">
-
-    <!-- Bootstrap stylesheets and script -->
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<head>
 
     <title>Rankings</title>
+
 </head>
 
 <body>
 
     <h2>Player Rankings</h2>
+
+    <form method="get">
+        <div>
+            <select name="position">
+                <option value="All" th:selected="${selectedPosition} == 'All'">All</option>
+                <option value="1B" th:selected="${selectedPosition} == '1B'" >1B</option>
+                <option value="2B" th:selected="${selectedPosition} == '2B'">2B</option>
+                <option value="3B" th:selected="${selectedPosition} == '3B'">3B</option>
+                <option value="OF" th:selected="${selectedPosition} == 'OF'">OF</option>
+                <option value="C" th:selected="${selectedPosition} == 'C'">C</option>
+                <option value="DH" th:selected="${selectedPosition} == 'DH'">DH</option>
+            </select>
+            <input type="submit" value="Filter" />
+        </div>
+    </form>
 
     <table>
         <tr>
