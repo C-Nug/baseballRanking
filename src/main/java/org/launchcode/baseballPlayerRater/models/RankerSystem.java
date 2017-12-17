@@ -28,13 +28,13 @@ public class RankerSystem {
 
         allBatters = BatterCSVReader.loadAllBatters();
 
-        // find lowestStats
+        // find lowest stats of all players for each category
         HashMap<String, Integer> lowestIntStats = RankerSystem.minInt();
         HashMap<String, Double> lowestDubStats = RankerSystem.minDub();
         lowestBatter.setIntStats(lowestIntStats);
         lowestBatter.setDubStats(lowestDubStats);
 
-        // find highestStats
+        // find highest Stats of all players for each category
         HashMap<String, Integer> highestIntStats = RankerSystem.maxInt();
         HashMap<String, Double> highestDubStats = RankerSystem.maxDub();
         highestBatter.setIntStats(highestIntStats);
@@ -214,6 +214,11 @@ public class RankerSystem {
     public static void rankByRating() {
 
         allBatters.sort(new RankPlayerByRating());
+
+        // Set all players to 1 in case of multiple updates for debugging purposes
+        for (Integer i = 0; i < allBatters.size(); i++) {
+            allBatters.get(i).setRank(1);
+        }
 
         for (Integer i = 0; i < allBatters.size(); i++) {
             allBatters.get(i).setRank(i + 1);   // +1 because baseball players don't want to be a 0

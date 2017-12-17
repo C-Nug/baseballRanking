@@ -5,6 +5,8 @@
 
     <title>Rankings</title>
 
+    <link th:href="@{/css/foundation.min.css}" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -43,9 +45,7 @@
         </tr>
         <tr th:each="batter: ${batters}">
             <td th:text="${batter.rank}"></td>
-            <td>
-                <a th:href="@{'http://www.fangraphs.com/statss.aspx?playerid=' + ${batter.id}}" th:text="${batter.name}"></a>
-            </td>
+            <td th:text="${batter.name}"></td>
             <td th:text="${batter.team}"></td>
             <td th:text="${batter.positions}"></td>
             <td th:text="${batter.rating}"></td>
